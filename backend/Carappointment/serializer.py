@@ -11,7 +11,7 @@ class AutoSerializer(serializers.ModelSerializer):
         model = Auto
         fields = '__all__'
         
-class MegreneloSerializer(serializers.ModelSerializer):
+class MegrendeloSerializer(serializers.ModelSerializer):
     class Meta:
         model = Megrendelo
         fields = '__all__'

@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Szolgaltatas,Auto,Megrendelo
-from .serializer import AutoSerializer,MegreneloSerializer,SzolgaltatasSerializer
+from .serializer import AutoSerializer,MegrendeloSerializer,SzolgaltatasSerializer
 
 
 @api_view(['GET'])
@@ -47,7 +47,7 @@ def AutoByID(request,pk):
 @api_view(['GET'])
 def MindenMegrendelo(request):
     megrendelok = Megrendelo.objects.all()
-    serialized = MegreneloSerializer(megrendelok, many = True)
+    serialized = MegrendeloSerializer(megrendelok, many = True)
     
     return Response(serialized.data)
 
@@ -55,7 +55,7 @@ def MindenMegrendelo(request):
 def MegrendeloByID(request,pk):
     try:
         megrendelo = Auto.objects.get(id=pk)
-        serialized = MegreneloSerializer(megrendelo, many = False) 
+        serialized = MegrendeloSerializer(megrendelo, many = False) 
         return Response(serialized.data)
     except Exception as e:
         return Response({'Message': str(e)})
