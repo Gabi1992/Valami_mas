@@ -11,7 +11,7 @@ class Szolgaltatas(models.Model):
     
 class Auto(models.Model):
      marka = models.CharField("Autó márkája", max_length=200, blank=True)
-     evjarat = models.IntegerField("Évjárat")
+     
      
      def __str__(self):
          return self.marka
