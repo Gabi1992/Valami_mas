@@ -58,7 +58,7 @@ def DeleteSzolgaltatas(request,pk):
     szolgaltatas = Szolgaltatas.objects.get(id = pk)
     serializer = SzolgaltatasSerializer(instance=szolgaltatas)
     szolgaltatas.delete()
-    return Response(serializer.data)
+    return Response("A szolgáltatás törölve!")
 
 #-------------------------#
 
