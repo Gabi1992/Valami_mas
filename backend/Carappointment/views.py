@@ -53,6 +53,15 @@ def CreateSzolgaltatas(request):
 
 #-------------------------#
 
+@api_view(['DELETE'])
+def DeleteSzolgaltatas(request,pk):
+    szolgaltatas = Szolgaltatas.objects.get(id = pk)
+    serializer = SzolgaltatasSerializer(instance=szolgaltatas)
+    szolgaltatas.delete()
+    return Response(serializer.data)
+
+#-------------------------#
+
 @api_view(['PUT'])
 def UpdateSzolgaltatas(request,pk):
     szolgaltatas = Szolgaltatas.objects.get(id = pk)
