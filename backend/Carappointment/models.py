@@ -1,10 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
     
 class Szolgaltatas(models.Model):
     kategoria = models.CharField("Kategória", max_length=200, blank=True)
     neve = models.CharField("Szolgáltatás", max_length=200, blank=True)
     ara = models.CharField("Ára", max_length=200, blank=True)
-    ido = models.CharField("Idő", max_length=200, blank=True)
+    ido = models.CharField("Munkaidő", max_length=200, blank=True)
     
     def __str__(self):
         return self.neve
