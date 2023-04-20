@@ -14,4 +14,5 @@ urlpatterns = [
     path('createauto/',views.CreateAuto),
     path('megrendelok/',views.MindenMegrendelo),
     path('megrendelo/<int:pk>',views.MegrendeloByID),
+    path('createmegrendelok/',views.CreateMegrendelo),
 ]

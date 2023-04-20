@@ -127,4 +127,14 @@ def MegrendeloByID(request,pk):
 
 #-------------------------#
 
+@api_view(['POST'])
+def CreateMegrendelo(request):
+    serializer = MegrendeloSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    
+    return Response("Hiba történt!")
+
 # Create your views here.
