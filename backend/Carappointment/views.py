@@ -9,6 +9,7 @@ def endpoints(request):
     points = {'Message': 'Teszt'}
     return Response(points)
 
+#-------------------------#
 
 @api_view(['GET'])
 def MindenSzolgaltatas(request):
@@ -16,6 +17,8 @@ def MindenSzolgaltatas(request):
     serialized = SzolgaltatasSerializer(szolgaltatasok, many = True)
     
     return Response(serialized.data)
+
+#-------------------------#
 
 @api_view(['GET'])
 def SzolgaltatasByID(request,pk):
@@ -25,14 +28,52 @@ def SzolgaltatasByID(request,pk):
         return Response(serialized.data)
     except Exception as e:
         return Response({'Message': str(e)})
-  
-      
+#-------------------------# 
+@api_view(['POST'])
+def CreateSzolgaltatas(request):
+    serializer = SzolgaltatasSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    
+    return Response("Hiba történt!")
+
+#-------------------------#
+
+@api_view(['POST'])
+def CreateSzolgaltatas(request):
+    serializer = SzolgaltatasSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    
+    return Response("Hiba történt!")
+
+#-------------------------#
+
+@api_view(['POST'])
+def UpdateSzolgaltatas(request,pk):
+    szolgaltatas = Szolgaltatas.objects.get(id = pk)
+    serializer = SzolgaltatasSerializer(instance=szolgaltatas, data=request.data)
+    
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    
+    return Response("Hiba történt!")
+
+#-------------------------#
+
 @api_view(['GET'])
 def MindenAuto(request):
     autok = Auto.objects.all()
     serialized = AutoSerializer(autok, many = True)
     
     return Response(serialized.data)
+
+#-------------------------#
 
 @api_view(['GET'])
 def AutoByID(request,pk):
@@ -42,7 +83,20 @@ def AutoByID(request,pk):
         return Response(serialized.data)
     except Exception as e:
         return Response({'Message': str(e)})
+
+#-------------------------#
+
+@api_view(['POST'])
+def CreateAuto(request):
+
+    serializer = AutoSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
     
+    return Response("Hiba történt!")   
+
+#-------------------------#
 
 @api_view(['GET'])
 def MindenMegrendelo(request):
@@ -51,14 +105,17 @@ def MindenMegrendelo(request):
     
     return Response(serialized.data)
 
+#-------------------------#
+
 @api_view(['GET'])
 def MegrendeloByID(request,pk):
     try:
-        megrendelo = Auto.objects.get(id=pk)
+        megrendelo = Megrendelo.objects.get(id=pk)
         serialized = MegrendeloSerializer(megrendelo, many = False) 
         return Response(serialized.data)
     except Exception as e:
         return Response({'Message': str(e)})
 
+#-------------------------#
 
 # Create your views here.
