@@ -15,3 +15,4 @@ class MegrendeloSerializer(serializers.ModelSerializer):
     class Meta:
         model = Megrendelo
         fields = '__all__'
+        

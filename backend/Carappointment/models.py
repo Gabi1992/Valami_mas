@@ -1,6 +1,7 @@
 from django.db import models
     
 class Szolgaltatas(models.Model):
+    kategoria = models.CharField("Kategória", max_length=200, blank=True)
     neve = models.CharField("Szolgáltatás", max_length=200, blank=True)
     ara = models.CharField("Ára", max_length=200, blank=True)
     ido = models.CharField("Idő", max_length=200, blank=True)
