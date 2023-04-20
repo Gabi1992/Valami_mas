@@ -53,7 +53,7 @@ def CreateSzolgaltatas(request):
 
 #-------------------------#
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def UpdateSzolgaltatas(request,pk):
     szolgaltatas = Szolgaltatas.objects.get(id = pk)
     serializer = SzolgaltatasSerializer(instance=szolgaltatas, data=request.data)
