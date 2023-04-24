@@ -1,59 +1,95 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Select from '@mui/material/Select';
-import TimeDatePicker from "../Elements/TimeDatePicker"
 import Slider from '@mui/material/Slider';
 
+import dayjs from 'dayjs';
 import { API_URL } from "../../constant/apiConstant";
-import { FilledInput, FormControl, Input, InputLabel, TextField } from "@mui/material";
+import { FormControl, Input, InputLabel, TextField } from "@mui/material";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+import ServicesSelect from "../Elements/ServicesSelect";
 
 export default function Contact() {
+
+  const isWeekend = (date) => {
+    const day = date.day();
+  
+    return day === 0 || day === 6;
+  };
 
   const getCurrentYear = () => {
     return new Date().getFullYear();
   }
 
-  const [value, setValue] = React.useState(getCurrentYear);
 
-  const handleSliderChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const [vmake, setVmake] = React.useState('');
-
-  const handleChange = (event) => {
-    setVmake(event.target.value);
-  };
-
-
+  //Variables to be POSTed
+  const [currentYear, setCurrentYear] = React.useState(getCurrentYear);
+  const [selectedDate, setSelectedDate] = useState([ ]);
   const [name, setName] = useState([ ])
   const [email, setEmail] = useState([ ])
   const [phone, setPhone] = useState([ ])
   const [service, setService] = useState([ ])
   const [vehicleYear, setVehicleYear] = useState([ ])
   const [vehicleMake, setVehicleMake] = useState([ ])
+  const [orderDate, setOrderDate] = useState([ ])
+  const [orderTime, setOrderTime] = useState(dayjs())
 
-  
-function sendClient() { 
+  const handleSliderChange = (event, newValue) => {
+    setCurrentYear(newValue);
+  };
+
+
+//Sending order function
+function sendOrder() { 
   let data = {
-    "nev":name,
-    "telefonszam":phone,
-    "email":email,
-    "auto":1,
-    "szolgaltatas":[1, 2]
+    "nev": name,
+    "telefonszam": phone,
+    "email": email,
+    "auto": 2,
+    "szolgaltatas": [1, 2]
     }
   
-  fetch(API_URL+"megrendelo",{
+  fetch(API_URL+"createmegrendelok/",{
     method: 'POST',
     headers: {
-                'Content-Type': "application/json; charset=utf-8",
+              'Content-Type': "application/json",
     },
     body: JSON.stringify(data)
         })
         .then(response => response.json())
         .catch(error =>{
         console.log(error)
-})}
+        })
+}
+
+//Function for hour and minute to be visible only
+function HourAndMinute(time) {
+  time = dayjs()
+  return (`${time.hour()}:${time.minute()}`);
+}
+
+console.log(HourAndMinute(orderTime))
+
+
+const [services, setServices] = useState([ ])
+
+useEffect(() => {
+  fetch(API_URL+"szolgaltatasok/")
+  .then(res => res.json())
+  .then(data => {
+    setServices(data)
+    console.log(data)
+  })
+}, [ ])
+
+
+
+const serviceOptions = [
+
+]
 
   return (
     <Wrapper id="contact">
@@ -66,14 +102,27 @@ function sendClient() {
           </HeaderInfo>
           <div className="row" style={{ paddingBottom: "30px" }}>
             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-              <FormControl fullWidth>
-                <TextField id="name" label="Name" onChange={(event) => {setName(event.target.value)}} variant="standard" />
-                <TextField id="email" type={"email"}  label="Email" onChange={(event) => {setEmail(event.target.value)}} variant="standard" />
-                <TextField id="phone" type={"phone"} label="Phone" onChange={(event) => {setPhone(event.target.value)}} variant="standard" />
-                <TextField id="service" label="Service" onChange={(event) => {setService(event.target.value)}} variant="standard" />
+              <FormControl fullWidth sx={{
+                    mb: 2
+                  }} >
+                <TextField id="name" label="Name" onChange={(event) => {setName(event.target.value)}} variant="standard" sx={{mb: 2}} ></TextField>
+                <TextField id="email" type={"email"}  label="Email" onChange={(event) => {setEmail(event.target.value)}} sx={{mb: 2}} variant="standard" />
+                <TextField id="phone" type={"phone"} label="Phone" onChange={(event) => {setPhone(event.target.value)}} sx={{mb: 2}} variant="standard" />
+                <ServicesSelect />
+                <FormControl fullWidth sx={{mb: 2}}>
+                <InputLabel id="demo-simple-select-label">Vehicle make</InputLabel>
+                <Select 
+                  id="vehicleMake"
+                  label="Vehicle make"
+                  value={vehicleMake}
+                  size="10px"
+                  onChange={(event) => {setVehicleMake(event.target.value)}}
+                  >
+                </Select>
+                </FormControl>
                 <Input 
                   id="vehicleYear" 
-                  value={value}
+                  value={currentYear}
                   label="Vehicle year"
                   disabled
                   size="small"
@@ -87,9 +136,10 @@ function sendClient() {
                   onChange={(event) => {setVehicleYear(event.target.value)}}
                 />
                 <Slider
-                  value={typeof value === 'number' ? value : 0}
+                  value={typeof currentYear === 'number' ? currentYear : 0}
                   onChange={handleSliderChange}       
                   size="small"
+                  label="kkk"
                   defaultValue={2023}
                   marks
                   min={1950}
@@ -97,25 +147,37 @@ function sendClient() {
                   >
               </Slider>
               </FormControl>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Vehicle make</InputLabel>
-                <Select
-                  id="vehicleMake"
-                  label="Vehicle make"
-                  value={vmake}
-                  size="10px"
-                  onChange={(event) => {setVehicleMake(event.target.value)}}
-                  >
-                </Select>
-              </FormControl>
+                <FormControl sx={{mb: 2}}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <MobileDatePicker
+                      id="date"
+                      label="Prefarrable date"
+                      format={'YYYY/MM/DD'}
+                      minDate={dayjs()}
+                      defaultValue={dayjs()}
+                      shouldDisableDate={isWeekend}
+                      displayPast={false}
+                      value={orderDate}
+                      onChange={(newOrderDate) => setOrderDate(newOrderDate)}
+                    />
+                  </LocalizationProvider>
+                </FormControl>
+                <FormControl>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <MobileTimePicker
+                      id="time"
+                      label="Prefarrable time"
+                      format="HH:MM"
+                      value={orderTime}
+                      onChange={(newOrderTime) => setOrderTime(newOrderTime)}
+                      sx={{ml: 2}}
+                      minutesStep={15}
+                    />
+                  </LocalizationProvider>
+                  </FormControl>
               <SumbitWrapper className="flex">
-                <ButtonInput type="submit" value="Book appointment" className="pointer animate radius8" onClick={() => {sendClient()}} style={{ maxWidth: "220px" }} />
+                <ButtonInput type="submit" value="Book appointment" className="pointer animate radius8" onClick={() => {sendOrder()}} style={{ maxWidth: "220px" }} />
               </SumbitWrapper>
-            </div>
-            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 flex">
-              <CalendarBox>
-                <TimeDatePicker />
-              </CalendarBox>
             </div>
           </div>
         </div>
@@ -134,7 +196,7 @@ const HeaderInfo = styled.div`
     text-align: center;
   }
 `;
-const Form = styled.form`
+const From = styled.form`
   padding: 70px 0 30px 0;
   input,
   textarea {
@@ -179,8 +241,6 @@ const SumbitWrapper = styled.div`
     margin-bottom: 50px;
   }
 `;
-
-
 
 
 

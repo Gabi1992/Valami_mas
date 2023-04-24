@@ -18,15 +18,6 @@ export default function Pricing() {
               <PricingTable
                 icon="break"
                 priceFrom="from $49.95"
-                title="BREAK"
-                text="Description"
-                offers={[
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                ]}
                 action={() => alert("clicked")}
               />
             </TableBox>
@@ -34,15 +25,6 @@ export default function Pricing() {
               <PricingTable
                 icon="axle"
                 priceFrom="$149.95 Each"
-                title="AXEL"
-                text="Description"
-                offers={[
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                ]}
                 action={() => alert("clicked")}
               />
             </TableBox>
@@ -50,15 +32,6 @@ export default function Pricing() {
               <PricingTable
                 icon="wheel"
                 priceFrom="from $29.95"
-                title="TIRE AND WHEEL"
-                text="Description"
-                offers={[
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                  { price: "$45", name: "Something", cheked: true },
-                ]}
                 action={() => alert("clicked")}
               />
             </TableBox>

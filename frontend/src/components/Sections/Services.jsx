@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 // Components
 import ServiceBox from "../Elements/ServiceBox";
-import FullButton from "../Buttons/FullButton";
-import BrandSlider from "../Elements/BrandSlider";
 // Assets
 import ServiceImg1 from "../../assets/img/services/axle.png";
 import ServiceImg2 from "../../assets/img/services/breaks.png";
@@ -25,14 +23,14 @@ export default function Services() {
               <ServiceBox
                 id="breaks"
                 img={ServiceImg2}
-                title="Breaks"
+                title="BREAKS"
               />
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4">
               <ServiceBox
                 id="axle"
                 img={ServiceImg1}
-                title="Axle"
+                title="AXLE"
               />
             </div>
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4">
